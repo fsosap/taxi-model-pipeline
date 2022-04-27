@@ -7,7 +7,7 @@ steps:
 - name: 'gcr.io/$_PROJECT/cb-tfx:latest'
   entrypoint: python
   args: ['-m', 'pytest', '.']
-  dir: 'Model-Training-as-a-CI-CD-System/tfx-pipeline/models'
+  dir: 'taxi-model-pipeline/models'
   id: 'Unit Test'
   waitFor: ['Clone Repository']
 
@@ -17,7 +17,7 @@ steps:
           '--pipeline-path', 'kubeflow_v2_runner.py',
           '--engine', 'vertex',
           '--build-image']
-  dir: 'Model-Training-as-a-CI-CD-System/tfx-pipeline'
+  dir: 'taxi-model-pipeline'
   id: 'Clone Repository'
   waitFor: ['Compile Pipeline']  
 
@@ -28,6 +28,6 @@ steps:
           '--pipeline-name', '$_PIPELINE_NAME',
           '--project', '$_PROJECT',
           '--region', '$_REGION']
-  dir: 'Model-Training-as-a-CI-CD-System/tfx-pipeline'
+  dir: 'taxi-model-pipeline'
   id: 'Create Pipeline Run'
   waitFor: ['Create Pipeline']
