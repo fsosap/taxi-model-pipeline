@@ -3,14 +3,9 @@ on:
      branches: [ main ]
 
 env:
-  SUBSTITUTIONS: "
-   _PROJECT=$automated-training,\
-   _REGION=us-central1,\
-   _REPO_URL=https://github.com/fsosap/taxi-model-pipeline.git,\
-   _BRANCH=main,\
-   _PIPELINE_NAME=tfx-pipeline
-  "
-
+  PROJECT: automated-training
+  PIPELINE_NAME: tfx-pipeline
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,7 +23,7 @@ jobs:
 
       - name: trigger cloud build based on pipeline changes
         run: |
-          gcloud builds submit --no-source --timeout=60m \
-          --config cloudbuild.yaml \
-          --substitutions $SUBSTITUTIONS \
-          --machine-type=n1-highcpu-8
+          gcloud builds submit \
+            --quiet \
+            --tag "gcr.io/$PROJECT/$PIPELINE_NAME:$GITHUB_SHA" \
+            --machine-type=n1-highcpu-8
