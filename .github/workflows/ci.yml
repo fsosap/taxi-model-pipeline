@@ -6,8 +6,7 @@ env:
   SUBSTITUTIONS: "
             _PROJECT=automated-training,\
             _REGION=us-central1,\
-            BRANCH_NAME=main,\
-            _PIPELINE_NAME=tfx-pipeline,\
+            _PIPELINE_NAME=tfx-pipeline
             "  
   
 jobs:
