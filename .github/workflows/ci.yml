@@ -12,20 +12,21 @@ env:
             "  
   
 jobs:
-  build:
+  job_id:
       runs-on: ubuntu-latest
-    job_id:
+
       steps:
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: '${{ secrets.RUN_SA_KEY }}'
 
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v0'
-
-    - name: trigger cloud build based on pipeline changes
-      run: |
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+  
+      - name: trigger cloud build based on pipeline changes
+        run: |
           gcloud builds submit --no-source --timeout=60m \
+          --config cloudbuild.yaml \
           --substitutions $SUBSTITUTIONS \
           --machine-type=n1-highcpu-8
