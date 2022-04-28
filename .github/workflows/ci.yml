@@ -26,17 +26,8 @@ jobs:
           project_id: ${{ secrets.RUN_PROJECT }}
           # set up GCP credentials for your Service Account
 
-      - name: check if tfx-pipeline folder has anything changed
-        uses: dorny/paths-filter@v2.2.1
-        id: tfx-pipeline-change
-        with:
-            filters: |
-                src:
-                  - 'taxi-model-pipeline/**'
-
       - name: trigger cloud build based on pipeline changes
-        if: steps.tfx-pipeline-change.outputs.src == 'true'
-        run: |
+        run: 
           gcloud builds submit --no-source --timeout=60m \
           --config build/pipeline-deployment.yaml \
           --substitutions $SUBSTITUTIONS \
