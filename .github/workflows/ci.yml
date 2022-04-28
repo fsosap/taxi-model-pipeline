@@ -13,7 +13,6 @@ env:
   
 jobs:
   job_id:
-  build:
       runs-on: ubuntu-latest
 
       steps:
@@ -28,6 +27,5 @@ jobs:
       - name: trigger cloud build based on pipeline changes
         run: |
             gcloud builds submit --no-source --timeout=60m \
-            --config cloudbuild.yaml \
             --substitutions $SUBSTITUTIONS \
             --machine-type=n1-highcpu-8
