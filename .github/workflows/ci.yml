@@ -32,7 +32,7 @@ jobs:
         with:
             filters: |
                 src:
-                  - 'tfx-pipeline/**'
+                  - 'taxi-model-pipeline/**'
 
       - name: trigger cloud build based on pipeline changes
         if: steps.tfx-pipeline-change.outputs.src == 'true'
