@@ -14,8 +14,10 @@ env:
 jobs:
   job_id:
       runs-on: ubuntu-latest
-
       steps:
+      - name: 'Checkout to repository'
+        uses: 'actions/checkout@v3'
+
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
