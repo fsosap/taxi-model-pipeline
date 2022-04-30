@@ -25,10 +25,3 @@ jobs:
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v0'
-  
-      - name: trigger cloud build based on pipeline changes
-        run: |
-          gcloud builds submit --no-source --timeout=60m \
-          --config cloudbuild.yaml \
-          --substitutions $SUBSTITUTIONS \
-          --machine-type=n1-highcpu-8
