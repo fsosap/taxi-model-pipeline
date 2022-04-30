@@ -13,12 +13,12 @@ steps:
   id: 'Build TFX Image'
   waitFor: ['Clone Repository']
 
-- name: 'gcr.io/automated-training/tfx-pipeline'
-  entrypoint: python
-  args: ['-m', 'pytest', '.']
-  dir: 'taxi-model-pipeline/tfx-pipeline/models'
-  id: 'Unit Test'
-  waitFor: ['Clone Repository']
+# - name: 'gcr.io/automated-training/tfx-pipeline'
+#   entrypoint: python
+#   args: ['-m', 'pytest', '.']
+#   dir: 'taxi-model-pipeline/tfx-pipeline/models'
+#   id: 'Unit Test'
+#   waitFor: ['Clone Repository']
 
 - name: 'gcr.io/automated-training/tfx-pipeline'
   entrypoint: 'tfx'
@@ -28,7 +28,7 @@ steps:
         ]
   dir: 'taxi-model-pipeline/tfx-pipeline'
   id: 'Compile Pipeline'
-  waitFor: ['Unit Test']
+  waitFor: ['Clone Repository']
 
 - name: 'gcr.io/automated-training/tfx-pipeline'
   entrypoint: 'tfx'
