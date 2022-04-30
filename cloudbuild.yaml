@@ -28,7 +28,7 @@ steps:
         ]
   dir: 'taxi-model-pipeline/tfx-pipeline'
   id: 'Compile Pipeline'
-  waitFor: ['Clone Repository']
+  waitFor: ['Build TFX Image']
 
 - name: 'gcr.io/automated-training/tfx-pipeline'
   entrypoint: 'tfx'
