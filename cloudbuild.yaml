@@ -7,14 +7,20 @@ steps:
          '--verbose']
   id: 'Clone Repository'
 
-- name: 'gcr.io/tfx-oss-public/tfx:1.0.0'
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/automated-training/tfx-pipeline', '.']
+  dir: 'CI-CD-for-Model-Training'
+  id: 'Build TFX Image'
+  waitFor: ['Clone Repository']
+
+- name: 'gcr.io/automated-training/tfx-pipeline'
   entrypoint: python
   args: ['-m', 'pytest', '.']
   dir: 'taxi-model-pipeline/tfx-pipeline/models'
   id: 'Unit Test'
   waitFor: ['Clone Repository']
 
-- name: 'gcr.io/tfx-oss-public/tfx:1.0.0'
+- name: 'gcr.io/automated-training/tfx-pipeline'
   entrypoint: 'tfx'
   args: ['pipeline', 'compile',
           '--pipeline-path', 'kubeflow_v2_runner.py',
@@ -24,7 +30,7 @@ steps:
   id: 'Compile Pipeline'
   waitFor: ['Unit Test']
 
-- name: 'gcr.io/tfx-oss-public/tfx:1.0.0'
+- name: 'gcr.io/automated-training/tfx-pipeline'
   entrypoint: 'tfx'
   args: ['pipeline', 'create',
           '--pipeline-path', 'kubeflow_v2_runner.py',
